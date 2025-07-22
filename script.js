@@ -1,4 +1,2 @@
-document.querySelector('.cta-button').addEventListener('click', function () {
-  alert('Registro habilitado próximamente.');
-});
-
+// Aquí puedes agregar funciones personalizadas en JavaScript si deseas
+console.log("SaludPredict AI cargado correctamente.");
