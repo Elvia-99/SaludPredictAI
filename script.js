@@ -1,2 +1,2 @@
-// Aquí puedes agregar funciones personalizadas en JavaScript si deseas
-console.log("SaludPredict AI cargado correctamente.");
+// Este archivo está reservado para scripts personalizados adicionales si lo necesitas
+console.log("Script.js cargado correctamente.");
