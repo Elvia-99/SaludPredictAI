@@ -1,69 +1,73 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SaludPredict AI - Inicio</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SaludPredict AI</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-    <div><strong>SaludPredict AI</strong></div>
+    <h1>SaludPredict AI</h1>
     <nav>
       <a href="#">Inicio</a>
       <a href="#">Registro</a>
-      <a href="#">Ingresar</a>
+      <a href="#">Acceder</a>
     </nav>
   </header>
 
   <section class="hero">
-    <h1>Bienvenido a SaludPredict AI</h1>
-    <p>La plataforma inteligente que conecta usuarios, médicos, clínicas, laboratorios y farmacias en un solo sistema predictivo de salud.</p>
-    <button class="cta-button">Crear Cuenta Gratis</button>
-  </section>
-
-  <section class="features">
-    <div class="feature">
-      <h3>Agenda Médica Inteligente</h3>
-      <p>Permite a los pacientes agendar citas con especialistas según disponibilidad en tiempo real.</p>
-    </div>
-    <div class="feature">
-      <h3>IA Predictiva de Salud</h3>
-      <p>Detecta riesgos de salud antes de que ocurran y propone acciones preventivas.</p>
-    </div>
-    <div class="feature">
-      <h3>Conexión Farmacéutica</h3>
-      <p>Recetas electrónicas conectadas a farmacias disponibles en tu zona.</p>
-    </div>
+    <h2>Plataforma Predictiva de Salud</h2>
+    <p>Conectamos pacientes, médicos, farmacias, laboratorios y clínicas</p>
   </section>
 
   <section>
-    <h2>Acceso a la plataforma</h2>
+    <h3>Registro e inicio de sesión</h3>
     <input type="email" id="email" placeholder="Correo electrónico" />
     <input type="password" id="password" placeholder="Contraseña" />
-    <button onclick="loginUser()">Iniciar sesión</button>
+    <select id="rol">
+      <option value="paciente">Paciente</option>
+      <option value="medico">Médico</option>
+      <option value="farmacia">Farmacia</option>
+      <option value="clinica">Clínica</option>
+      <option value="laboratorio">Laboratorio</option>
+    </select>
     <button onclick="registerUser()">Registrarse</button>
+    <button onclick="loginUser()">Iniciar sesión</button>
     <button onclick="loginWithGoogle()">Acceder con Google</button>
   </section>
 
+  <section>
+    <h3>Agendar cita</h3>
+    <input type="text" id="medicoId" placeholder="ID del médico" />
+    <input type="date" id="fecha" />
+    <input type="time" id="hora" />
+    <button onclick="agendarCita()">Agendar</button>
+  </section>
+
   <a href="https://wa.me/593980876434" class="whatsapp-button" target="_blank">
-    📱 Contáctanos por WhatsApp
+    📱 WhatsApp
   </a>
 
   <footer>
-    &copy; 2025 SaludPredict AI - Todos los derechos reservados
+    &copy; 2025 SaludPredict AI
   </footer>
 
   <script src="script.js"></script>
-
   <script type="module">
     import { register, login, loginWithGoogle } from './auth.js';
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+
+    const db = getFirestore();
+    const auth = getAuth();
 
     window.registerUser = () => {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
-      register(email, password)
-        .then(user => alert("Registro exitoso"))
+      const tipo = document.getElementById("rol").value;
+      register(email, password, tipo)
+        .then(() => alert("Registro exitoso"))
         .catch(error => alert("Error: " + error.message));
     };
 
@@ -71,14 +75,36 @@
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
       login(email, password)
-        .then(user => alert("Bienvenido"))
+        .then(() => alert("Inicio de sesión exitoso"))
         .catch(error => alert("Error: " + error.message));
     };
 
     window.loginWithGoogle = () => {
       loginWithGoogle()
-        .then(user => alert("Bienvenido con Google"))
+        .then(() => alert("Inicio con Google exitoso"))
         .catch(error => alert("Error: " + error.message));
+    };
+
+    window.agendarCita = async () => {
+      const medicoId = document.getElementById("medicoId").value;
+      const fecha = document.getElementById("fecha").value;
+      const hora = document.getElementById("hora").value;
+      const usuario = auth.currentUser;
+
+      if (!usuario) {
+        alert("Debes iniciar sesión para agendar");
+        return;
+      }
+
+      await addDoc(collection(db, "citas"), {
+        usuarioId: usuario.uid,
+        medicoId: medicoId,
+        fecha: fecha,
+        hora: hora,
+        estado: "pendiente"
+      });
+
+      alert("Cita agendada exitosamente");
     };
   </script>
 </body>
