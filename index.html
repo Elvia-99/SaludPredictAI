@@ -37,10 +37,49 @@
     </div>
   </section>
 
+  <section>
+    <h2>Acceso a la plataforma</h2>
+    <input type="email" id="email" placeholder="Correo electrónico" />
+    <input type="password" id="password" placeholder="Contraseña" />
+    <button onclick="loginUser()">Iniciar sesión</button>
+    <button onclick="registerUser()">Registrarse</button>
+    <button onclick="loginWithGoogle()">Acceder con Google</button>
+  </section>
+
+  <a href="https://wa.me/593980876434" class="whatsapp-button" target="_blank">
+    📱 Contáctanos por WhatsApp
+  </a>
+
   <footer>
     &copy; 2025 SaludPredict AI - Todos los derechos reservados
   </footer>
 
   <script src="script.js"></script>
+
+  <script type="module">
+    import { register, login, loginWithGoogle } from './auth.js';
+
+    window.registerUser = () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      register(email, password)
+        .then(user => alert("Registro exitoso"))
+        .catch(error => alert("Error: " + error.message));
+    };
+
+    window.loginUser = () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      login(email, password)
+        .then(user => alert("Bienvenido"))
+        .catch(error => alert("Error: " + error.message));
+    };
+
+    window.loginWithGoogle = () => {
+      loginWithGoogle()
+        .then(user => alert("Bienvenido con Google"))
+        .catch(error => alert("Error: " + error.message));
+    };
+  </script>
 </body>
 </html>
