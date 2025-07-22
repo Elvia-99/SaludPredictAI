@@ -1,58 +1,59 @@
 body {
-  margin: 0;
   font-family: Arial, sans-serif;
-  background: #f4f6f9;
-  color: #333;
-}
-header {
-  background: #1e90ff;
-  padding: 1rem 2rem;
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-nav a {
-  color: white;
-  margin: 0 1rem;
-  text-decoration: none;
-}
-.hero {
-  text-align: center;
-  padding: 3rem 2rem;
-  background: #fff;
-}
-.hero h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-.hero p {
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
-}
-.cta-button {
-  background: #1e90ff;
-  color: white;
-  padding: 1rem 2rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-.features {
-  display: flex;
-  justify-content: space-around;
-  padding: 2rem;
-  background: #eaf0f6;
-}
-.feature {
-  max-width: 300px;
-  text-align: center;
-}
-footer {
-  text-align: center;
-  padding: 1rem;
-  background: #1e90ff;
-  color: white;
+  margin: 0;
+  padding: 0;
+  background: #f9f9f9;
 }
 
+header {
+  background: #1e90ff;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+nav a {
+  margin: 0 10px;
+  color: white;
+  text-decoration: none;
+}
+
+.hero {
+  background: #ffffff;
+  padding: 2rem;
+  text-align: center;
+}
+
+.features {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+}
+
+.feature {
+  background: #e0f0ff;
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.whatsapp-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #25d366;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+footer {
+  background: #222;
+  color: #eee;
+  text-align: center;
+  padding: 1rem;
+  margin-top: 2rem;
+}
