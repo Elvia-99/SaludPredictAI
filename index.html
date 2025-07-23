@@ -6,20 +6,6 @@
   <title>SaludPredict AI</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-  <script src="script.js"></script>
-<script type="module">
-  import { register, login, loginWithGoogle } from './auth.js';
-  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
-  import { getAuth } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
-
-  const db = getFirestore();
-  const auth = getAuth();
-
-  window.registerUser = () => { ... }
-  window.loginUser = () => { ... }
-  window.loginWithGoogle = () => { ... }
-  window.agendarCita = async () => { ... }
-</script>
 <body>
   <header>
     <h1>SaludPredict AI</h1>
