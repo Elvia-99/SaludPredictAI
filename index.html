@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SaludPredict AI</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <header>
@@ -25,7 +25,7 @@
     <h3>Registro e inicio de sesión</h3>
     <input type="email" id="email" placeholder="Correo electrónico" />
     <input type="password" id="password" placeholder="Contraseña" />
-    <select id="rol">
+    <select id="role">
       <option value="paciente">Paciente</option>
       <option value="medico">Médico</option>
       <option value="farmacia">Farmacia</option>
@@ -34,77 +34,75 @@
     </select>
     <button onclick="registerUser()">Registrarse</button>
     <button onclick="loginUser()">Iniciar sesión</button>
-    <button onclick="loginWithGoogle()">Acceder con Google</button>
+    <button onclick="loginWithGoogle()">Iniciar con Google</button>
   </section>
 
   <section>
     <h3>Agendar cita</h3>
-    <input type="text" id="medicoId" placeholder="ID del médico" />
+    <input type="text" id="medico" placeholder="ID del médico" />
     <input type="date" id="fecha" />
     <input type="time" id="hora" />
     <button onclick="agendarCita()">Agendar</button>
   </section>
 
-  <a href="https://wa.me/593980876434" class="whatsapp-button" target="_blank">
-    📱 WhatsApp
-  </a>
+  <a href="https://wa.me/593980876434" class="whatsapp-button" target="_blank">📱 WhatsApp</a>
 
-  <footer>
-    &copy; 2025 SaludPredict AI
-  </footer>
+  <footer>&copy; 2025 SaludPredict AI</footer>
 
+  <!-- Script general -->
   <script src="script.js"></script>
+
+  <!-- Script funcional de Firebase y conexión con módulos -->
   <script type="module">
     import { register, login, loginWithGoogle } from './auth.js';
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+    import { agendarCita as agendar } from './db.js';
     import { getAuth } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
 
-    const db = getFirestore();
     const auth = getAuth();
 
-    window.registerUser = () => {
+    window.registerUser = async () => {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
-      const tipo = document.getElementById("rol").value;
-      register(email, password, tipo)
-        .then(() => alert("Registro exitoso"))
-        .catch(error => alert("Error: " + error.message));
+      const role = document.getElementById("role").value;
+      try {
+        await register(email, password, role);
+        alert("Registro exitoso");
+      } catch (error) {
+        alert("Error al registrar: " + error.message);
+      }
     };
 
-    window.loginUser = () => {
+    window.loginUser = async () => {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
-      login(email, password)
-        .then(() => alert("Inicio de sesión exitoso"))
-        .catch(error => alert("Error: " + error.message));
+      try {
+        await login(email, password);
+        alert("Inicio de sesión exitoso");
+      } catch (error) {
+        alert("Error al iniciar sesión: " + error.message);
+      }
     };
 
-    window.loginWithGoogle = () => {
-      loginWithGoogle()
-        .then(() => alert("Inicio con Google exitoso"))
-        .catch(error => alert("Error: " + error.message));
+    window.loginWithGoogle = async () => {
+      try {
+        await loginWithGoogle();
+        alert("Inicio con Google exitoso");
+      } catch (error) {
+        alert("Error con Google: " + error.message);
+      }
     };
 
     window.agendarCita = async () => {
-      const medicoId = document.getElementById("medicoId").value;
+      const medico = document.getElementById("medico").value;
       const fecha = document.getElementById("fecha").value;
       const hora = document.getElementById("hora").value;
-      const usuario = auth.currentUser;
-
-      if (!usuario) {
-        alert("Debes iniciar sesión para agendar");
-        return;
+      const usuario = auth.currentUser?.email || "desconocido";
+      try {
+        await agendar(usuario, medico, fecha, hora);
+        alert("Cita agendada");
+      } catch (error) {
+        alert("Error al agendar: " + error.message);
       }
-
-      await addDoc(collection(db, "citas"), {
-        usuarioId: usuario.uid,
-        medicoId: medicoId,
-        fecha: fecha,
-        hora: hora,
-        estado: "pendiente"
-      });
-
-      alert("Cita agendada exitosamente");
     };
   </script>
 </body>
