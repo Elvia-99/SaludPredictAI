@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Panel - SaludPredict AI</title>
+</head>
+<body>
+  <h1>Bienvenido a tu panel</h1>
+  <div id="panel-content">Cargando tu información...</div>
+
+  <script type="module">
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+    import { auth, db } from './firebase.js';
+
+    const panelDiv = document.getElementById("panel-content");
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        panelDiv.innerHTML = "No has iniciado sesión.";
+        return;
+      }
+
+      const docRef = doc(db, "usuarios", user.uid);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const role = docSnap.data().role;
+        switch (role) {
+          case "paciente":
+            panelDiv.innerHTML = "Panel de Paciente: puedes agendar citas.";
+            break;
+          case "medico":
+            panelDiv.innerHTML = "Panel Médico: puedes revisar citas agendadas.";
+            break;
+          case "farmacia":
+            panelDiv.innerHTML = "Panel Farmacia: puedes revisar recetas.";
+            break;
+          case "clinica":
+            panelDiv.innerHTML = "Panel Clínica: gestión de servicios.";
+            break;
+          case "laboratorio":
+            panelDiv.innerHTML = "Panel Laboratorio: revisión de exámenes.";
+            break;
+          default:
+            panelDiv.innerHTML = "Rol no reconocido.";
+        }
+      } else {
+        panelDiv.innerHTML = "No se encontró información del usuario.";
+      }
+    });
+  </script>
+</body>
+</html>
