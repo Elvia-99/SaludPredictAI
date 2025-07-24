@@ -49,10 +49,8 @@
 
   <footer>&copy; 2025 SaludPredict AI</footer>
 
-  <!-- Script general -->
   <script src="script.js"></script>
 
-  <!-- Script funcional de Firebase y conexión con módulos -->
   <script type="module">
     import { register, login, loginWithGoogle } from './auth.js';
     import { agendarCita as agendar } from './db.js';
@@ -99,7 +97,7 @@
       const usuario = auth.currentUser?.email || "desconocido";
       try {
         await agendar(usuario, medico, fecha, hora);
-        alert("Cita agendada");
+        alert("Cita agendada exitosamente");
       } catch (error) {
         alert("Error al agendar: " + error.message);
       }
