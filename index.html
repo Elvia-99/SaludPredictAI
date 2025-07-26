@@ -7,8 +7,22 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>SaludPredict AI</h1>
+  <header>
+    <h1>SaludPredict AI</h1>
+    <nav>
+      <a href="#">Inicio</a>
+      <a href="#">Registro</a>
+      <a href="#">Acceder</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>Plataforma Predictiva de Salud</h2>
+    <p>Conectamos pacientes, médicos, farmacias, laboratorios y clínicas</p>
+  </section>
+
   <section>
+    <h3>Registro e inicio de sesión</h3>
     <input type="email" id="email" placeholder="Correo electrónico" />
     <input type="password" id="password" placeholder="Contraseña" />
     <select id="rol">
@@ -22,7 +36,23 @@
     <button onclick="loginUser()">Iniciar sesión</button>
     <button onclick="loginWithGoogle()">Acceder con Google</button>
   </section>
-  <script src="script.js"></script>
-  <script type="module" src="router.js"></script>
+
+  <section>
+    <h3>Agendar cita</h3>
+    <input type="text" id="medicoId" placeholder="ID del médico" />
+    <input type="date" id="fecha" />
+    <input type="time" id="hora" />
+    <button onclick="agendarCita()">Agendar</button>
+  </section>
+
+  <a href="https://wa.me/593980876434" class="whatsapp-button" target="_blank">
+    📱 WhatsApp
+  </a>
+
+  <footer>
+    &copy; 2025 SaludPredict AI
+  </footer>
+
+  <script src="app.js" type="module"></script>
 </body>
 </html>
