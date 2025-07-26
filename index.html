@@ -1,27 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SaludPredict AI</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js"></script>
-  <script type="module" src="router.js"></script>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>SaludPredict AI</h1>
-    <nav>
-      <a href="#">Inicio</a>
-      <a href="#registro">Registro</a>
-      <a href="#login">Acceder</a>
-    </nav>
-  </header>
-
-  <section id="registro">
-    <h2>Registro</h2>
-    <input type="email" id="email" placeholder="Correo electrónico">
-    <input type="password" id="password" placeholder="Contraseña">
+  <h1>SaludPredict AI</h1>
+  <section>
+    <input type="email" id="email" placeholder="Correo electrónico" />
+    <input type="password" id="password" placeholder="Contraseña" />
     <select id="rol">
       <option value="paciente">Paciente</option>
       <option value="medico">Médico</option>
@@ -30,86 +19,10 @@
       <option value="laboratorio">Laboratorio</option>
     </select>
     <button onclick="registerUser()">Registrarse</button>
-  </section>
-
-  <section id="login">
-    <h2>Acceso</h2>
-    <input type="email" id="login_email" placeholder="Correo">
-    <input type="password" id="login_password" placeholder="Contraseña">
     <button onclick="loginUser()">Iniciar sesión</button>
     <button onclick="loginWithGoogle()">Acceder con Google</button>
   </section>
-
-  <section>
-    <h2>Agendar Cita</h2>
-    <input type="text" id="medicoId" placeholder="ID del médico">
-    <input type="date" id="fecha">
-    <input type="time" id="hora">
-    <button onclick="agendarCita()">Agendar</button>
-  </section>
-
-  <a href="https://wa.me/593980876434" class="whatsapp-button" target="_blank">📱 WhatsApp</a>
-
-  <footer>&copy; 2025 SaludPredict AI</footer>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
-    import { getFirestore, setDoc, doc, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyAw6p2srtCBwJk3RHz4hkQ5GG9dV_ZFFuc",
-      authDomain: "saludpredictai.firebaseapp.com",
-      projectId: "saludpredictai",
-      storageBucket: "saludpredictai.appspot.com",
-      messagingSenderId: "706368280280",
-      appId: "1:706368280280:web:d3417482e15641ec9629ad"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth();
-    const db = getFirestore();
-
-    window.registerUser = async () => {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-      const rol = document.getElementById("rol").value;
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      await setDoc(doc(db, "usuarios", userCredential.user.uid), { email, role: rol });
-      alert("Registro exitoso");
-    };
-
-    window.loginUser = async () => {
-      const email = document.getElementById("login_email").value;
-      const password = document.getElementById("login_password").value;
-      await signInWithEmailAndPassword(auth, email, password);
-      alert("Inicio de sesión exitoso");
-    };
-
-    window.loginWithGoogle = async () => {
-      const provider = new GoogleAuthProvider();
-      const result = await signInWithPopup(auth, provider);
-      alert("Inicio con Google exitoso");
-    };
-
-    window.agendarCita = async () => {
-      const medicoId = document.getElementById("medicoId").value;
-      const fecha = document.getElementById("fecha").value;
-      const hora = document.getElementById("hora").value;
-      const usuario = auth.currentUser;
-      if (!usuario) {
-        alert("Debes iniciar sesión para agendar");
-        return;
-      }
-      await addDoc(collection(db, "citas"), {
-        usuarioId: usuario.uid,
-        medicoId: medicoId,
-        fecha: fecha,
-        hora: hora,
-        estado: "pendiente"
-      });
-      alert("Cita agendada exitosamente");
-    };
-</body>
+  <script src="script.js"></script>
+  <script type="module" src="router.js"></script>
 </body>
 </html>

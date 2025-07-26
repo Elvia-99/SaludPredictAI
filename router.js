@@ -9,10 +9,7 @@ onAuthStateChanged(auth, async (user) => {
   if (!user) return;
   const snap = await getDoc(doc(db, "usuarios", user.uid));
   if (!snap.exists()) return alert("Perfil no encontrado");
-
-  const tipo = snap.data().role || snap.data().tipo;
-  console.log("Rol usuario:", tipo);
-
+  const tipo = snap.data().tipo;
   const rutas = {
     paciente: "panel_paciente.html",
     medico: "panel_medico.html",
@@ -22,4 +19,3 @@ onAuthStateChanged(auth, async (user) => {
   };
   window.location.href = rutas[tipo] || "index.html";
 });
-
